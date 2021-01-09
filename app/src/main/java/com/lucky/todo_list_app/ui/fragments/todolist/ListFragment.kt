@@ -8,7 +8,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -54,7 +53,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun initRecyclerView() {
-        binding.recyclerView.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+        binding.recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.recyclerView.hasFixedSize()
         binding.recyclerView.adapter = adaptor
         binding.recyclerView.itemAnimator = SlideInUpAnimator().apply {
@@ -100,8 +100,8 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.list_menu, menu)
         val search = menu.findItem(R.id.MI_search)
-       (search.actionView as SearchView).apply {
-            isSubmitButtonEnabled =  true
+        (search.actionView as SearchView).apply {
+            isSubmitButtonEnabled = true
             setOnQueryTextListener(this@ListFragment)
         }
     }
@@ -134,8 +134,10 @@ class ListFragment : Fragment(), SearchView.OnQueryTextListener {
             R.id.MT_deleteAll -> {
                 deleteAll()
             }
-            R.id.low -> viewModel.orderByLow().observe(viewLifecycleOwner){adaptor.addTodoItems(it)}
-            R.id.high -> viewModel.orderByHigh().observe(viewLifecycleOwner){adaptor.addTodoItems(it)}
+            R.id.low -> viewModel.orderByLow()
+                .observe(viewLifecycleOwner) { adaptor.addTodoItems(it) }
+            R.id.high -> viewModel.orderByHigh()
+                .observe(viewLifecycleOwner) { adaptor.addTodoItems(it) }
         }
         return super.onOptionsItemSelected(item)
     }
